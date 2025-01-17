@@ -13,6 +13,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      BUCKET_NAME: model-challenge
+      MODEL_FILE: model_file_test/delay_model.json
+      DATASET_FILE: datasets/data.csv
 
     steps:
     - uses: actions/checkout@v3
