@@ -20,15 +20,29 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+
+    - id: 'auth'
+      name: 'Authenticate to Google Cloud'
+      uses: 'google-github-actions/auth@v1'
+      with:
+        credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v1'
+
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: 3.11
+
     - name: Install dependencies
       run: make install
+
     - name: Test model
       run: make model-test
+
     - name: Test API
       run: make api-test
+
     - name: Stress test
       run: make stress-test
