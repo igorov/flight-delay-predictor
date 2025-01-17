@@ -37,4 +37,9 @@ jobs:
           --platform managed \
           --region ${{ env.REGION }} \
           --allow-unauthenticated \
-          --set-env-vars LOG_LEVEL=${{ env.LOG_LEVEL }},THRESHOLD_IN_MINUTES=${{ env.THRESHOLD_IN_MINUTES }},BUCKET_NAME=${{ env.BUCKET_NAME }},MODEL_FILE=${{ env.MODEL_FILE }},DATASET_FILE=${{ env.DATASET_FILE }}
+          --set-env-vars LOG_LEVEL=${{ env.LOG_LEVEL }},THRESHOLD_IN_MINUTES=${{ env.THRESHOLD_IN_MINUTES }},BUCKET_NAME=${{ env.BUCKET_NAME }},MODEL_FILE=${{ env.MODEL_FILE }},DATASET_FILE=${{ env.DATASET_FILE }} \
+          --http-health-check-path /health \
+          --timeout 1 \
+          --http-health-check-interval 30 \
+          --http-health-check-timeout 1 \
+          --http-health-check-failure-threshold 3
