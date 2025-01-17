@@ -37,4 +37,6 @@ jobs:
           --platform managed \
           --region ${{ env.REGION }} \
           --allow-unauthenticated \
-          --set-env-vars LOG_LEVEL=${{ env.LOG_LEVEL }},THRESHOLD_IN_MINUTES=${{ env.THRESHOLD_IN_MINUTES }},BUCKET_NAME=${{ env.BUCKET_NAME }},MODEL_FILE=${{ env.MODEL_FILE }},DATASET_FILE=${{ env.DATASET_FILE }}
+          --set-env-vars LOG_LEVEL=${{ env.LOG_LEVEL }},THRESHOLD_IN_MINUTES=${{ env.THRESHOLD_IN_MINUTES }},BUCKET_NAME=${{ env.BUCKET_NAME }},MODEL_FILE=${{ env.MODEL_FILE }},DATASET_FILE=${{ env.DATASET_FILE }} \
+          --port 8080 \
+          --min-instances=0
