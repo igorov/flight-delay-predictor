@@ -5,6 +5,7 @@ import challenge.utils.settings as env
 from challenge.errors.cloud_storage import GoogleStorageError, GoogleStorageUploadError
 from challenge.utils.logger import logger
 
+
 class GoogleCloudStorage:
     def __init__(self):
         self.bucket_name = env.BUCKET_NAME
@@ -14,6 +15,7 @@ class GoogleCloudStorage:
             self.storage_client = storage.Client()
         except Exception as e:
             raise GoogleStorageError(f"Error al inicializar el cliente de Storage: {str(e)}")
+
 
     def upload(self, content: BytesIO) -> None:
         logger.info(f"Subiendo el archivo a {self.bucket_name}")
@@ -34,15 +36,18 @@ class GoogleCloudStorage:
         except Exception as e:
             logger.error(f"Error al subir el archivo: {str(e)}")
             raise GoogleStorageUploadError(f"Error al subir el archivo: {str(e)}")
-        
+
+
     def download_dataset(self) -> BytesIO:
         logger.debug(f"Descargando archivo de {self.bucket_name}")
         return self.__download(self.dataset_blob_name)
-        
+
+
     def download_model(self) -> BytesIO:
         logger.debug(f"Descargando archivo de {self.bucket_name}")
         return self.__download(self.model_blob_name)
-    
+
+
     def __download(self, blob_name: str) -> BytesIO:
         logger.debug(f"Descargando archivo: {blob_name}")
         try:

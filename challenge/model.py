@@ -10,23 +10,21 @@ from io import BytesIO
 import tempfile
 from challenge.utils.logger import logger
 
-class DelayModel:
 
+class DelayModel:
     def __init__(
         self
     ):
-        #self._model = None # Model should be saved in this attribute.
         self._model = xgb.XGBClassifier(random_state=1, learning_rate=0.01)
         self.storage_client = GoogleCloudStorage()
 
     def load_model(self, model_buffer) -> None:
         model_buffer.seek(0)
-        #self._model.load_model(model_buffer)
         with tempfile.NamedTemporaryFile(delete=False) as temp_file:
             temp_file.write(model_buffer.read())
             temp_file_path = temp_file.name
         self._model.load_model(temp_file_path)
-    
+
     def preprocess(
         self,
         data: pd.DataFrame,
@@ -46,7 +44,7 @@ class DelayModel:
         """
         try:
             data_processor = ProcessData(data)
-            
+
             if target_column is not None:
                 features, target = data_processor.preprocess_for_training()
                 return features, target
@@ -54,10 +52,14 @@ class DelayModel:
                 features = data_processor.preprocess_for_serving()
                 return features
         except ProcessDataError as e:
-            raise ProcessDataError(f"Error durante el preprocesamiento de datos: {str(e)}") from e
+            raise ProcessDataError(
+                f"Error durante el preprocesamiento de datos: {str(e)}"
+            ) from e
         except Exception as e:
-            raise ProcessDataError(f"Error inesperado durante el preprocesamiento de datos: {str(e)}") from e
-        
+            raise ProcessDataError(
+                f"Error inesperado durante el preprocesamiento de datos: {str(e)}"
+            ) from e
+
 
     def fit(
         self,
@@ -94,6 +96,7 @@ class DelayModel:
         except Exception as e:
             logger.warning(f"Error al subir el modelo a GCS: {str(e)}")
         return
+
 
     def predict(
         self,

@@ -3,6 +3,7 @@ from typing import List, Annotated
 from typing_extensions import Literal
 from pydantic_core import PydanticCustomError
 
+
 class Flight(BaseModel):
     OPERA: Annotated[
         str,
@@ -11,7 +12,8 @@ class Flight(BaseModel):
             description="Operador del vuelo",
             json_schema_extra={
                 "error_messages": {
-                    "min_length": "El campo 'opera' debe ser un string no vacío."
+                    "min_length":
+                        "El campo 'opera' debe ser un string no vacío."
                 }
             }
         )
@@ -27,19 +29,22 @@ class Flight(BaseModel):
     MES: Annotated[
         int,
         Field(
-            ge=1, 
+            ge=1,
             le=12,
             description="Mes del vuelo (1-12)",
             json_schema_extra={
                 "error_messages": {
-                    "less_than_equal": "El campo 'mes' debe ser menor o igual a 12.",
-                    "greater_than_equal": "El campo 'mes' debe ser mayor o igual a 1.",
-                    "type": "El campo 'mes' debe ser un número entero."
+                    "less_than_equal":
+                        "El campo 'mes' debe ser menor o igual a 12.",
+                    "greater_than_equal":
+                        "El campo 'mes' debe ser mayor o igual a 1.",
+                    "type":
+                        "El campo 'mes' debe ser un número entero."
                 }
             }
         )
     ]
-    
+
     model_config = {
         "json_schema_extra": {
             "examples": [
@@ -52,7 +57,9 @@ class Flight(BaseModel):
         }
     }
 
+
 class FlightRequest(BaseModel):
+    min_length_msg = "La lista 'flights' debe contener al menos un elemento."
     flights: Annotated[
         List[Flight],
         Field(
@@ -60,13 +67,13 @@ class FlightRequest(BaseModel):
             description="Lista de vuelos a procesar",
             json_schema_extra={
                 "error_messages": {
-                    "min_length": "La lista 'flights' debe contener al menos un elemento.",
+                    "min_length": min_length_msg,
                     "type": "El campo 'flights' debe ser una lista de vuelos."
                 }
             }
         )
     ]
-    
+
     model_config = {
         "json_schema_extra": {
             "examples": [

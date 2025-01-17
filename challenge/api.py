@@ -10,25 +10,29 @@ import pandas as pd
 from challenge.utils.logger import logger
 
 app = fastapi.FastAPI()
-
 delay_model = util.init_model()
 
+
 @app.exception_handler(RequestValidationError)
-async def validation_exception_handler(request: Request, exc: RequestValidationError):
+async def validation_exception_handler(
+    request: Request,
+    exc: RequestValidationError
+):
     errors = []
     for error in exc.errors():
         errors.append(error.get("msg"))
-    
     return JSONResponse(
         status_code=400,
         content={"detail": errors}
     )
-        
+
+
 @app.get("/health", status_code=200)
 async def get_health() -> dict:
     return {
         "status": "OK"
     }
+
 
 @app.post("/predict", status_code=200)
 async def post_predict(request: FlightRequest) -> dict:
@@ -64,8 +68,8 @@ async def post_predict(request: FlightRequest) -> dict:
             status_code=500,
             content={"detail": "Error inesperado"}
         )
-        
-    
+
+
 @app.post("/train", status_code=200)
 async def post_train() -> dict:
     try:
