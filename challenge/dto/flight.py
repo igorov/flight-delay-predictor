@@ -59,7 +59,6 @@ class Flight(BaseModel):
 
 
 class FlightRequest(BaseModel):
-    min_length_msg = "La lista 'flights' debe contener al menos un elemento."
     flights: Annotated[
         List[Flight],
         Field(
@@ -67,7 +66,7 @@ class FlightRequest(BaseModel):
             description="Lista de vuelos a procesar",
             json_schema_extra={
                 "error_messages": {
-                    "min_length": min_length_msg,
+                    "min_length": "La lista 'flights' debe contener al menos un elemento.",
                     "type": "El campo 'flights' debe ser una lista de vuelos."
                 }
             }
@@ -90,7 +89,6 @@ class FlightRequest(BaseModel):
         }
     }
 
-    # Si necesitas validaciones más complejas, puedes usar model_validator
     @model_validator(mode='after')
     def validate_flights(self) -> 'FlightRequest':
         if not self.flights:
