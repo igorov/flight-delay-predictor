@@ -5,5 +5,6 @@ export GOOGLE_APPLICATION_CREDENTIALS=/home/igorov/reto/sa/pruebas1-448003-65a2d
 # Storage
 export BUCKET_NAME=model-challenge
 export MODEL_FILE=model_file/delay_model.json
+#export DATASET_FILE="datasets/data.csv"
 
 uvicorn challenge.api:app --host 0.0.0.0 --port 8080

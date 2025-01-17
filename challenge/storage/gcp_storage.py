@@ -44,6 +44,7 @@ class GoogleCloudStorage:
         return self.__download(self.model_blob_name)
     
     def __download(self, blob_name: str) -> BytesIO:
+        logger.debug(f"Descargando archivo: {blob_name}")
         try:
             bucket = self.storage_client.bucket(self.bucket_name)
             blob = bucket.blob(blob_name)
